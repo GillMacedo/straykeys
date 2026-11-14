@@ -1,0 +1,4 @@
+name: svc
+extra_one: 1
+extra_two:
+  nested: true

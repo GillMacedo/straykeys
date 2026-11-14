@@ -1,0 +1,12 @@
+name: svc
+server.port: 80
+server.host: a.example
+ptr.host: b.example
+ptr:
+  port: 81
+labels.team: core
+x_base: &base
+  id: one
+  weight: 1.5
+items:
+  - *base

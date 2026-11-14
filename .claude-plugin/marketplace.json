@@ -1,0 +1,14 @@
+{
+  "name": "straykeys-marketplace",
+  "description": "Marketplace for straykeys, which finds config keys that a Go program silently ignores.",
+  "owner": {
+    "name": "Giulliano Macedo"
+  },
+  "plugins": [
+    {
+      "name": "straykeys",
+      "source": "./",
+      "description": "Find YAML and JSON config keys your Go program ignores: typos, wrong case, keys at the wrong level, bare-number durations. Checks against the real struct, for yaml.v3, encoding/json, viper and koanf."
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "host": "a",
+  "port": 1,
+  "port": 2,
+  "Host": "b",
+  "module": {"whatever": true}
+}

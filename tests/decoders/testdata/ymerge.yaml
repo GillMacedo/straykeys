@@ -1,0 +1,15 @@
+x_base: &base
+  host: a.example
+  port: 80
+name: svc
+server:
+  <<: *base
+  timeout: 5s
+ptr: *base
+items:
+  - &item
+    id: one
+    weight: 1.5
+  - *item
+labels:
+  team: core

@@ -1,0 +1,13 @@
+{
+  "name": "straykeys",
+  "version": "0.1.0",
+  "description": "Check YAML and JSON config files against the Go struct they decode into, and find keys the program silently ignores: typos, wrong case, keys at the wrong level, renamed fields, durations without units, and values the decoder refuses. Supports gopkg.in/yaml.v3, encoding/json, sigs.k8s.io/yaml, viper and koanf, and configs inside Kubernetes ConfigMaps.",
+  "author": {
+    "name": "Giulliano Macedo",
+    "url": "https://github.com/GillMacedo"
+  },
+  "homepage": "https://github.com/GillMacedo/straykeys",
+  "repository": "https://github.com/GillMacedo/straykeys",
+  "license": "MIT",
+  "keywords": ["go", "golang", "config", "yaml", "json", "viper", "koanf", "kubernetes", "configmap", "lint", "ci", "typo"]
+}

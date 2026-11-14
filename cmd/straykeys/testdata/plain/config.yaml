@@ -1,0 +1,4 @@
+host: a
+prot: 1
+module:
+  whatever: true

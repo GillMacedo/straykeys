@@ -1,0 +1,17 @@
+listen: ":8080"
+database:
+  url: postgres://localhost:5432/billing_dev
+  max_open_conns: 5
+  conn_timeout: 2s
+retry:
+  attempts: 3
+  backoff: 200ms
+invoices:
+  currency: EUR
+  due_days: 30
+  notify:
+    - email: billing-dev@example.com
+      on_failed: true
+shutdown_timeout: 10s
+features:
+  credit_notes: true

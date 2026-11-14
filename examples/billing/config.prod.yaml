@@ -1,0 +1,18 @@
+listen: ":8080"
+database:
+  url: postgres://db.internal:5432/billing
+  maxOpenConns: 50
+  conn_timeout: 5s
+retry:
+  attempts: 5
+  backof: 1s
+invoices:
+  currency: EUR
+  due_days: 14
+  notify:
+    - email: billing-oncall@example.com
+      onFailed: true
+shutdown_timeout: 30s
+features:
+  credit_notes: true
+max_open_conns: 50

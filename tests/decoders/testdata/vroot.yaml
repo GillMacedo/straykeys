@@ -1,0 +1,26 @@
+name: svc
+server:
+  host: a.example
+  port: 80
+  tls:
+    cert: c.pem
+  timeout: 5s
+region: eu
+VEmbed:
+  inner: hi
+ptr:
+  host: b.example
+  port: 81
+items:
+  - id: one
+    weight: 1.5
+    enabled: true
+    tags:
+      - x
+labels:
+  team: core
+notag: 7
+timeout: 3s
+anything:
+  deep:
+    key: v

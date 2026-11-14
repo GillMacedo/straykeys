@@ -1,0 +1,7 @@
+name: svc
+server.port: 80
+server.host: a.example
+labels.team: core
+items:
+  - id: one
+    weight: 1.5

@@ -1,0 +1,40 @@
+{
+  "name": "svc",
+  "server": {
+    "host": "a.example",
+    "port": 80,
+    "tls": {
+      "cert": "c.pem"
+    }
+  },
+  "region": "eu",
+  "tagged": {
+    "inner": "in"
+  },
+  "ptr": {
+    "host": "b.example",
+    "port": 81
+  },
+  "items": [
+    {
+      "id": "one",
+      "weight": 1.5,
+      "enabled": true,
+      "tags": [
+        "x"
+      ]
+    }
+  ],
+  "labels": {
+    "team": "core"
+  },
+  "NoTag": 7,
+  "-": "dash",
+  "count": "5",
+  "only_a": "a",
+  "shared": "s",
+  "level": "deep",
+  "anything": {
+    "deep": 1
+  }
+}

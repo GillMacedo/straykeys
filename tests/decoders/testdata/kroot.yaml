@@ -1,0 +1,12 @@
+name: svc
+server:
+  host: a.example
+  port: 80
+region: eu
+items:
+  - id: one
+    weight: 1.5
+labels:
+  team: core
+notag: 7
+timeout: 3s
