@@ -10,4 +10,8 @@ func main() {
 	_ = v.GetString("log.level")
 	_ = v.GetStringMap("plugins")
 	_ = v.GetInt("server.workers")
+
+	// An instance returned by viper.New() reads keys too.
+	inst := v.New()
+	_ = inst.GetString("log.format")
 }

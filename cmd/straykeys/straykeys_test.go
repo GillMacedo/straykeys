@@ -33,12 +33,12 @@ func TestViperGetKeysCount(t *testing.T) {
 	if code != 1 {
 		t.Fatalf("exit %d: %s", code, stderr)
 	}
-	want := "unknown-key:server.wrokers unknown-key:log.format duration-without-unit:timeout"
+	want := "unknown-key:server.wrokers duration-without-unit:timeout"
 	if got := codes(r); got != want {
 		t.Errorf("findings\n got %s\nwant %s", got, want)
 	}
-	if r.ViperGets != 4 {
-		t.Errorf("keys added from viper.Get calls: %d, want 4 (log, log.level, plugins, server.workers)", r.ViperGets)
+	if r.ViperGets != 5 {
+		t.Errorf("keys added from viper.Get calls: %d, want 5 (log, log.level, plugins, server.workers, log.format via a viper.New instance)", r.ViperGets)
 	}
 	r, _, _ = runJSON(t, "--dir", "testdata/viperapp", "--type", "./internal/config.Config", "--no-viper-gets", "testdata/viperapp/config.yaml")
 	want = "unknown-key:server.workers unknown-key:server.wrokers unknown-key:log unknown-key:plugins duration-without-unit:timeout"
