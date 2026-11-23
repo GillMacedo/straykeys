@@ -21,6 +21,66 @@ var viperReaders = map[string]bool{
 	"IsSet": true, "Sub": true, "UnmarshalKey": true, "InConfig": true,
 }
 
+// viperInstanceNames returns identifiers in f that hold a *viper.Viper value:
+// those assigned from viper.New() and those declared with that type. The
+// viper import is bound to `local` in this file.
+func viperInstanceNames(f *ast.File, local string) map[string]bool {
+	names := map[string]bool{}
+	isViperType := func(expr ast.Expr) bool {
+		star, ok := expr.(*ast.StarExpr)
+		if !ok {
+			return false
+		}
+		sel, ok := star.X.(*ast.SelectorExpr)
+		return ok && sel.Sel.Name == "Viper" && isIdent(sel.X, local)
+	}
+	isNewCall := func(expr ast.Expr) bool {
+		call, ok := expr.(*ast.CallExpr)
+		if !ok {
+			return false
+		}
+		sel, ok := call.Fun.(*ast.SelectorExpr)
+		return ok && sel.Sel.Name == "New" && isIdent(sel.X, local)
+	}
+	ast.Inspect(f, func(n ast.Node) bool {
+		switch stmt := n.(type) {
+		case *ast.AssignStmt:
+			if len(stmt.Rhs) == 0 {
+				return true
+			}
+			for _, rhs := range stmt.Rhs {
+				if isNewCall(rhs) {
+					for _, lhs := range stmt.Lhs {
+						if id, ok := lhs.(*ast.Ident); ok {
+							names[id.Name] = true
+						}
+					}
+				}
+			}
+		case *ast.GenDecl:
+			if stmt.Tok != token.VAR {
+				return true
+			}
+			for _, spec := range stmt.Specs {
+				vs, ok := spec.(*ast.ValueSpec)
+				if !ok || vs.Type == nil || !isViperType(vs.Type) {
+					continue
+				}
+				for _, name := range vs.Names {
+					names[name.Name] = true
+				}
+			}
+		}
+		return true
+	})
+	return names
+}
+
+func isIdent(expr ast.Expr, name string) bool {
+	id, ok := expr.(*ast.Ident)
+	return ok && id.Name == name
+}
+
 // viperReadKeys finds keys the module reads with package-level viper calls
 // such as viper.GetString("server.port"), with the file and line of the first
 // read of each key.
@@ -62,6 +122,7 @@ func viperReadKeys(root string) (map[string]string, error) {
 		if local == "" || local == "_" {
 			return nil
 		}
+		instances := viperInstanceNames(f, local)
 		ast.Inspect(f, func(n ast.Node) bool {
 			call, ok := n.(*ast.CallExpr)
 			if !ok || len(call.Args) == 0 {
@@ -72,7 +133,7 @@ func viperReadKeys(root string) (map[string]string, error) {
 				return true
 			}
 			id, ok := sel.X.(*ast.Ident)
-			if !ok || id.Name != local {
+			if !ok || (id.Name != local && !instances[id.Name]) {
 				return true
 			}
 			lit, ok := call.Args[0].(*ast.BasicLit)
